@@ -15,7 +15,7 @@ class GameManager {
         $gameSession = $bedfight->getGameSession();
         $gameStorage = $bedfight->getGameStorage();
     }
-    
+
     public function endGame(Player $player): void {
         $bedfight = BedFight::getInstance();
         $gameSession = $bedfight->getGameSession();
