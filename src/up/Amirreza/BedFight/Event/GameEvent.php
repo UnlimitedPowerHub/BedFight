@@ -13,7 +13,8 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\player\GameMode;
 use up\Amirreza\BedFight\BedFight;
 
-class GameEvent implements Listener {
+class GameEvent implements Listener
+{
 
     public function onBedBroke(BlockBreakEvent $event): void
     {

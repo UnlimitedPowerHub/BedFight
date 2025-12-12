@@ -3,4 +3,4 @@ name: "BedFight"
 version: 1.0.0
 api: 5.0.0
 
-main: up/Amirreza/BedFight/BedFight
+main: up\Amirreza\BedFight\BedFight
