@@ -1,6 +1,13 @@
 name: "BedFight"
 
-version: 1.0.0
+version: 1.0.0-beta
 api: 5.0.0
 
+author: UnlimitedPowerHub
+website: 'https://github.com/UnlimitedPowerHub/'
+
 main: up\Amirreza\BedFight\BedFight
+
+permissions:
+  bedfight.use:
+    default: True
