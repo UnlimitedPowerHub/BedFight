@@ -22,7 +22,7 @@ class GameSession {
      *      ]
      * ]
      */
-    public function addSession(array $players, array $value): void {
+    public function startSession(array $players, array $value): void {
         $session_name = strtolower($players[0].$players[1]);
         $this->sessions[strtolower($players[0])] = $session_name;
         $this->sessions[strtolower($players[1])] = $session_name;
@@ -31,10 +31,6 @@ class GameSession {
 
     public function getSessionPlayer(string $name): string {
         return $this->sessions[strtolower($name)];
-    }
-
-    public function removeSession(string $session_name): void {
-        unset($this->sessions[strtolower($session_name)]);
     }
 
     public function getSessionMap(string $session_name): string {
@@ -69,5 +65,7 @@ class GameSession {
         return $this->sessions[strtolower($session_name)]['players'];
     }
 
-
+    public function endSession(string $session_name): void {
+        unset($this->sessions[strtolower($session_name)]);
+    }
 }
