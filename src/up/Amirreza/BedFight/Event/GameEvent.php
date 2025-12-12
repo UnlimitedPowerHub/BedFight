@@ -49,6 +49,8 @@ class GameEvent implements Listener
                 $bluePlayer->sendTitle("Bed Broked!");
                 $bluePlayer->sendMessage("Your Blue Broked!");
             }
+        } else {
+            $event->cancel();
         }
     }
 
