@@ -13,10 +13,27 @@ use up\Amirreza\BedFight\BedFight;
 
 class GameManager {
 
-    public function startGame(array $players, string $map): void {
+    public function startGame(array $players, string $map): void
+    {
         $bedfight = BedFight::getInstance();
         $gameSession = $bedfight->getGameSession();
         $gameStorage = $bedfight->getGameStorage();
+        $teams = [
+            'blue' => $players[1],
+            'red' => $players[0],
+            'status' => [
+                'red' => 'bnb',
+                'blue' => 'bnb'
+            ]
+        ];
+        $session_name = $gameSession->startSession($players, $map, $teams);
+        $game = [
+            'session' => $session_name,
+            'name' => $map,
+            'teams' => $teams,
+        ];
+        $gameStorage->makeGame($game);
+
     }
 
     public function endGame(Player $player): void {

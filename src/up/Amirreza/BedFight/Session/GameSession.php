@@ -22,11 +22,12 @@ class GameSession {
      *      ]
      * ]
      */
-    public function startSession(array $players, array $value): void {
+    public function startSession(array $players, string $map, array $teams): string {
         $session_name = strtolower($players[0].$players[1]);
         $this->sessions[strtolower($players[0])] = $session_name;
         $this->sessions[strtolower($players[1])] = $session_name;
-        $this->sessions[$session_name] = ['players' => $players,'map' => $value['map'], 'teams' => $value['teams']];
+        $this->sessions[$session_name] = ['players' => $players,'map' => $map, 'teams' => $teams];
+        return $session_name;
     }
 
     public function getSessionPlayer(string $name): string {
