@@ -27,7 +27,7 @@ class GameEvent implements Listener
         $bedfight = BedFight::getInstance();
         $gameSession = $bedfight->getGameSession();
 
-        if(!$gameSession->getSessionPlayer($playerName)){
+        if(!$gameSession->isSessionPlayer($playerName)){
             $event->cancel();
             return;
         }
@@ -57,7 +57,7 @@ class GameEvent implements Listener
         $playerName = $player->getName();
         $bedfight = BedFight::getInstance();
         $gameSession = $bedfight->getGameSession();
-        if(!$gameSession->getSessionPlayer($playerName)){
+        if(!$gameSession->isSessionPlayer($playerName)){
             return;
         }
         $player_session = $gameSession->getSessionPlayer($player->getName());
@@ -82,7 +82,7 @@ class GameEvent implements Listener
         $player = $event->getPlayer();
         $bedfight = BedFight::getInstance();
         $gameSession = $bedfight->getGameSession();
-        if(!$gameSession->getSessionPlayer($player->getName())){
+        if(!$gameSession->isSessionPlayer($player->getName())){
             return;
         }
         $bedfight->getGameManager()->endGame($player);

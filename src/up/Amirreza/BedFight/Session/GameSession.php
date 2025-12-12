@@ -12,6 +12,10 @@ class GameSession {
         return array_key_exists(strtolower($session_name), $this->sessions);
     }
 
+    public function isSessionPlayer(string $name) : bool {
+        return array_key_exists(strtolower($name), $this->sessions);
+    }
+
     /*
      * teams = [
      *      'red' => $players[0]
