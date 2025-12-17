@@ -8,7 +8,6 @@ namespace up\Amirreza\BedFight\Manager;
 use pocketmine\entity\Location;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\world\Position;
 use up\Amirreza\BedFight\BedFight;
 
 class GameManager {

@@ -7,12 +7,14 @@ namespace up\Amirreza\BedFight;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\world\World;
+use up\Amirreza\BedFight\Command\BedFightCommand;
 use up\Amirreza\BedFight\Event\GameEvent;
 use up\Amirreza\BedFight\Form\GameForm;
 use up\Amirreza\BedFight\Manager\GameManager;
+use up\Amirreza\BedFight\Session\ArenaSession;
 use up\Amirreza\BedFight\Session\GameSession;
+use up\Amirreza\BedFight\Session\SetUpSession;
 use up\Amirreza\BedFight\Storage\GameStorage;
-use up\Amirreza\BedFight\Command\BedFightCommand;
 
 class BedFight extends PluginBase implements Listener {
 
@@ -24,6 +26,8 @@ class BedFight extends PluginBase implements Listener {
 
 
     private GameSession $gameSession;
+    private ArenaSession $arenaSession;
+    private SetUpSession $setUpSession;
 
     private GameStorage $gameStorage;
 
@@ -40,6 +44,8 @@ class BedFight extends PluginBase implements Listener {
     {
         self::$instance = $this;
         $this->gameSession = new GameSession();
+        $this->arenaSession = new ArenaSession();
+        $this->setUpSession = new SetUpSession();
         $this->gameStorage = new GameStorage();
         $this->gameManager = new GameManager();
         $this->gameForm = new GameForm();
@@ -61,6 +67,10 @@ class BedFight extends PluginBase implements Listener {
         return $this->gameSession;
     }
 
+    public function getArenaSession() : ArenaSession {
+        return $this->arenaSession;
+    }
+
     public function getGameStorage() : GameStorage {
         return $this->gameStorage;
     }
@@ -72,6 +82,11 @@ class BedFight extends PluginBase implements Listener {
     public function getGameForm() : GameForm {
         return $this->gameForm;
     }
+
+    public function getSetUpSession() : SetUpSession {
+        return $this->setUpSession;
+    }
+
 
     protected function onDisable(): void
     {

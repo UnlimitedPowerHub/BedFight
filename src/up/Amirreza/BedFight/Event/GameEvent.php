@@ -10,7 +10,6 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\player\GameMode;
 use up\Amirreza\BedFight\BedFight;
 
 class GameEvent implements Listener

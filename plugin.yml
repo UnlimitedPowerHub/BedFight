@@ -8,6 +8,18 @@ website: 'https://github.com/UnlimitedPowerHub/'
 
 main: up\Amirreza\BedFight\BedFight
 
+commands:
+  maplist:
+    permission: use
+  copymap:
+    permission: use
+  deletemap:
+    permission: use
+  tpworld:
+    permission: use
+
 permissions:
+  use:
+    default: true
   bedfight.use:
-    default: True
+    default: true
