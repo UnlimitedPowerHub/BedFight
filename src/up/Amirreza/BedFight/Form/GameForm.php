@@ -15,7 +15,8 @@ class GameForm {
     {
         $bedfight = BedFight::getInstance();
         $arenaSession = $bedfight->getArenaSession();
-        $form = new SimpleForm(function (Player $player, ?int $data) use ($arenaSession) {
+        $arenaStorage = $bedfight->getArenaStorage();
+        $form = new SimpleForm(function (Player $player, ?int $data) use ($arenaSession, $arenaStorage) {
             if ($data === null) {
                 return;
             }
@@ -23,6 +24,10 @@ class GameForm {
 
             switch ($data) {
                 case 0:
+                    if (!$arenaStorage->existEmptyArena()){
+                        $player->sendMessage("Have No Empty Arena Wait");
+                        return;
+                    }
                     if($arenaSession->isPending($playerName)) {
                         $player->sendMessage("You Already In Pending!");
                     } else {
@@ -38,7 +43,7 @@ class GameForm {
                     }
                     break;
                 case 2:
-                    $player->sendMessage("Clicked on Manage Button!");
+                    $this->sendManageForm($player);
                     break;
             }
         });
@@ -70,12 +75,22 @@ class GameForm {
                     }
                     break;
                 case 1:
+                    if (!$setUpSession->exists($player->getName())) {
+                        $player->sendMessage("You Are Not In Pending!");
+                    } else {
+                        $setUpSession->remove_pending_setup($player->getName());
+                        $player->getInventory()->clearAll();
+                        $player->sendMessage("You Canceled SetUp Arena");
+                    }
+                    break;
+                case 2:
                     $this->sendBedFightForm($player);
                     break;
             }
         });
         $form->setTitle("BedFight Manage");
         $form->addButton("SetUpArena");
+        $form->addButton("Cancel SetUpArena");
         $form->addButton("Back");
         $player->sendForm($form);
     }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace up\Amirreza\BedFight\Session;
 
 
+use up\Amirreza\BedFight\BedFight;
+
 class ArenaSession {
 
     public array $pending = [];
@@ -17,6 +19,7 @@ class ArenaSession {
         $this->pending[$name] = true;
         if (count($this->pending) == 2) {
             $players = [$this->pending[0], $this->pending[1]];
+            BedFight::getInstance()->getGameManager()->startGame($players,"d");
         }
     }
 

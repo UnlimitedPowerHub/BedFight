@@ -8,9 +8,11 @@ namespace up\Amirreza\BedFight\Manager;
 use pocketmine\entity\Location;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use up\Amirreza\BedFight\BedFight;
 
 class GameManager {
+
 
     public function startGame(array $players, string $map): void
     {
@@ -32,7 +34,23 @@ class GameManager {
             'teams' => $teams,
         ];
         $gameStorage->makeGame($game);
+        $this->teleportingToGame($teams,$map);
+    }
 
+    private function teleportingToGame(
+        array $teams,
+        string $arenaName,
+    ): void
+    {
+        $arenaStorage = BedFight::getInstance()->getArenaStorage();
+        $blue = $teams['blue'];
+        $red = $teams['red'];
+        $blueArenaPos = $arenaStorage->getBlueTeamPos($arenaName);
+        $redArenaPos = $arenaStorage->getRedTeamPos($arenaName);
+        $player0 = Server::getInstance()->getPlayerExact($red);
+        $player1 = Server::getInstance()->getPlayerExact($blue);
+        $player0->teleport($redArenaPos);
+        $player1->teleport($blueArenaPos);
     }
 
     public function endGame(Player $player): void {
