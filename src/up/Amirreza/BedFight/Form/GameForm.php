@@ -58,7 +58,7 @@ class GameForm {
     }
 
     private function sendManageForm(Player $player): void {
-        $form = new SimpleForm(function (Player $player, ?int $data) use ($player) {
+        $form = new SimpleForm(function (Player $player, ?int $data) {
             if ($data === null) {
                 return;
             }
