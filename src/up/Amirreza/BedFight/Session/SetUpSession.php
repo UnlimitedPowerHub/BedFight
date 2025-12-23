@@ -53,11 +53,43 @@ class SetUpSession {
         string|int $z,
         ?string $worldName
     ) : void {
-        $this->setups[strtolower($name)][$bedColor] = [
+        $this->setups[strtolower($name)][$bedColor]['bed'] = [
                 'x' => $x,
                 'y' => $y,
                 'z' => $z,
                 'worldName' => $worldName
         ];
+    }
+
+    public function setSpawn(
+        string $name,
+        ?string $teamColor,
+        string|int $x,
+        string|int $y,
+        string|int $z,
+        ?string $worldName
+    )
+        : void
+    {
+        $this->setups[strtolower($name)][$teamColor]['spawn'] = [
+            'x' => $x,
+            'y' => $y,
+            'z' => $z,
+            'worldName' => $worldName
+        ];
+    }
+
+    public function SetUpIsOk(string $name): bool {
+        return (
+            isset($this->setups[strtolower($name)]['worldName']) ||
+            isset($this->setups[strtolower($name)]['blue']['bed']) ||
+            isset($this->setups[strtolower($name)]['red']['bed']) ||
+            isset($this->setups[strtolower($name)]['blue']['spawn']) ||
+            isset($this->setups[strtolower($name)]['red']['spawn'])
+        );
+    }
+
+    public function getSetUpData(string $name): array {
+        return $this->setups[strtolower($name)];
     }
 }

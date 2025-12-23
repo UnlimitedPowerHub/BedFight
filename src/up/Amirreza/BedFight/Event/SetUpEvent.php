@@ -25,6 +25,7 @@ class SetUpEvent implements Listener {
     public function onInteract(PlayerInteractEvent $event): void {
         $player = $event->getPlayer();
         $item = $event->getItem();
+        $blockPosition = $event->getBlock()->getPosition();
         $itemTypeId = $item->getTypeId();
         $name = $player->getName();
         $setUpForm = $this->bedFight->getSetUpForm();
@@ -43,6 +44,25 @@ class SetUpEvent implements Listener {
                 return;
             }
         }
+        elseif (
+            $itemTypeId
+            === VanillaItems::ENDER_PEARL() ||
+            $item->getCustomName() === "SetSpawn(Blue)"
+        ) {
+            $setUpForm->sendConfirmSpawnForm(
+                $player,
+                'blue',
+                $blockPosition
+            );
+        }
+        elseif (
+            $itemTypeId
+            === VanillaItems::ENDER_PEARL() ||
+            $item->getCustomName() === "SetSpawn(Red)"
+        )
+        {
+            return;
+        }
     }
 
     public function onPlace(BlockPlaceEvent $event): void {
@@ -54,8 +74,12 @@ class SetUpEvent implements Listener {
         $setUpSession = $bedfight->getSetUpSession();
         $setUpForm = $bedfight->getSetUpForm();
 
-        if (!$player->getWorld()->getFolderName() ===
-            $setUpSession->getWorldName($player->getName())
+        if (!$setUpSession->
+        isOkWorldName(
+            $player->
+                getName(),
+            $player->getWorld()->getFolderName()
+        )
         ) {
             $player->sendMessage("You Cannot SetUp Arena In This Map!");
             $event->cancel();

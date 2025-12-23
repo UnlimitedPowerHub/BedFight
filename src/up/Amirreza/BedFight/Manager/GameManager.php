@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace up\Amirreza\BedFight\Manager;
 
 
+use pocketmine\block\utils\DyeColor;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\color\Color;
 use pocketmine\entity\Location;
+use pocketmine\item\VanillaItems;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\Server;
@@ -50,9 +54,68 @@ class GameManager {
         $player0 = Server::getInstance()->getPlayerExact($red);
         $player1 = Server::getInstance()->getPlayerExact($blue);
         $player0->teleport($redArenaPos);
+        $this->giveBedFightItems($player0,'o');
         $player1->teleport($blueArenaPos);
+        $this->giveBedFightItems($player1,'blue');
     }
 
+    public function giveBedFightItems(Player $player, ?string $teamColor)
+    : void
+    {
+        $pInv = $player->getInventory();
+        $pInv->clearAll();
+
+        if
+        (
+            $teamColor === 'blue'
+        ) {
+            $color = DyeColor::BLUE;
+        } else {
+            $color = DyeColor::RED;
+        }
+
+        $items =
+            [
+             VanillaItems::STONE_SWORD(),
+                VanillaBlocks::WOOL()->setColor(
+                    $color
+                )->asItem()
+                ->setCount(64)
+                ,
+                VanillaItems::STONE_AXE(),
+                VanillaItems::STONE_PICKAXE(),
+                VanillaItems::SHEARS(),
+            ]
+            ;
+
+        foreach ($items as $item) {
+            $pInv->addItem($item);
+        }
+
+        if
+        (
+            $teamColor === 'blue'
+        ) {
+            $color = Color::fromRGB(255);
+        } else {
+            $color = Color::fromRGB(125);
+        }
+
+        $pArInv = $player->getArmorInventory();
+
+        $pArInv->setHelmet(
+            VanillaItems::LEATHER_CAP()->setCustomColor($color)
+        );
+        $pArInv->setChestplate(
+            VanillaItems::LEATHER_TUNIC()->setCustomColor($color)
+        );
+        $pArInv->setLeggings(
+            VanillaItems::LEATHER_PANTS()->setCustomColor($color)
+        );
+        $pArInv->setBoots(
+            VanillaItems::LEATHER_BOOTS()->setCustomColor($color)
+        );
+    }
     public function endGame(Player $player): void {
         $bedfight = BedFight::getInstance();
         $Lobby_Location = $bedfight->LOBBY->getSpawnLocation();
@@ -84,6 +147,6 @@ class GameManager {
             $player->teleport($lobby);
             $winner->teleport($lobby);
             $gameSession->endSession($player_session);
-        },20*10);
+        },10*20);
     }
 }
