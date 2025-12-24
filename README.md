@@ -1,11 +1,6 @@
 ### BedFight Plugin
 
-- still developing...
+- <strong>still developing</strong>...
 
-### stats
- - arena setup: 85%
- - playing game: 45%
 
-<b>Next</b>
- - cleaning: 0%
- - optimizing: 0%
+- <em>v0.1.0-beta</em> <b>very soon</b>...
