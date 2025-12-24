@@ -63,15 +63,15 @@ class GameForm {
                 return;
             }
 
-            $setUpSession = BedFight::getInstance()->getSetUpSession();
+            $bedFight = BedFight::getInstance();
+            $setUpSession = $bedFight->getSetUpSession();
 
             switch ($data) {
                 case 0:
                     if ($setUpSession->exists($player->getName())) {
                         $player->sendMessage("You Already In Pending!");
                     } else {
-                        $setUpSession->set_pending_setup($player->getName());
-                        $player->sendMessage("Now Use Map Selector Item In Your Inventory");
+                        $bedFight->getSetUpForm()->sendSetArenaNameForm($player);
                     }
                     break;
                 case 1:
@@ -89,7 +89,7 @@ class GameForm {
             }
         });
         $form->setTitle("BedFight Manage");
-        $form->addButton("SetUpArena");
+        $form->addButton("Start SetUpArena");
         $form->addButton("Cancel SetUpArena");
         $form->addButton("Back");
         $player->sendForm($form);

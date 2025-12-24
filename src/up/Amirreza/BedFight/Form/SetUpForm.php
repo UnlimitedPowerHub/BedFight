@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace up\Amirreza\BedFight\Form;
 
+use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
@@ -14,39 +15,25 @@ use up\Amirreza\BedFight\BedFight;
 
 class SetUpForm {
 
-    protected array $maps_ = [];
-
-    protected BedFight $bedFight;
-
-    public function __construct()
-    {
-
-        $this->maps_ =  [];
-
-        foreach (BedFight::getInstance()->getServer()->getWorldManager()->getWorlds() as $world) {
-            $this->maps_[$world->getFolderName()] = $world->getFolderName();
-        }
-
-        $this->bedFight = BedFight::getInstance();
-    }
-
     public function sendMapSelectorForm(Player $player) : void {
+        $maps =  [];
+        $bedFight = BedFight::getInstance();
 
-        $form = new SimpleForm(function (Player $player, ?int $data) {
+        foreach ($bedFight->getServer()->getWorldManager()->getWorlds() as $world) {
+            $maps[] = $world->getFolderName();
+        }
+        $form = new SimpleForm(function (Player $player, ?int $data)
+        use ($maps, $bedFight) {
             if ($data === null) {
                 return;
             }
 
-            $map = $this->maps_[$data];
-            $world = $this->bedFight->getServer()->getWorldManager()->getWorldByName($map);
-            $this->
-            bedFight->
-            getSetUpSession()->
-            setWorldName(
-                $player->
-                getName()
-                ,$world->
-                getFolderName()
+            $map = $maps[$data];
+
+            $world = $bedFight->getServer()->getWorldManager()->getWorldByName($map);
+            $bedFight->getSetUpSession()->setWorldName(
+                $player->getName(),
+                $map
             );
             $player->sendMessage("Map $map selected");
             $player->teleport($world->getSafeSpawn());
@@ -55,10 +42,9 @@ class SetUpForm {
         });
 
         $form->setTitle("Map Selector - SetUp");
-        foreach ($this->maps_ as $world) {
-            $form->addButton($world);
+        foreach ($maps as $map) {
+            $form->addButton($map);
         }
-        $form->addButton("cancel");
         $player->sendForm($form);
     }
 
@@ -106,6 +92,9 @@ class SetUpForm {
                            ->setItem(
                            1,VanillaItems::ENDER_PEARL()
                                ->setCustomName("SetSpawn(Blue)"));
+                       $player->sendMessage(
+                           "Beds Successfully Seted Now Set Team Spawns"
+                       );
                    }
                    $player->sendMessage("Successfully Set Bed $bedColor");
                    break;
@@ -172,6 +161,10 @@ class SetUpForm {
                             ->removeItem(
                                 VanillaItems::ENDER_PEARL()
                             );
+                        $player->sendMessage("Successfully Set Spawn $teamColor");
+                        $player->getInventory()->setItem(7,VanillaItems::EMERALD()->setCustomName("Done"));
+                        $player->sendMessage("Now You Can Done It With Emerald Item");
+                        return;
                     }
                     $player->sendMessage("Successfully Set Spawn $teamColor");
                     break;
@@ -190,4 +183,75 @@ class SetUpForm {
         $form->addButton("cancel");
         $player->sendForm($form);
     }
+
+    public function sendConfirmForm(Player $player)
+    :void {
+        $bedfight = BedFight::getInstance();
+        $setUpSession = $bedfight->getSetUpSession();
+        $arenaStorage = $bedfight->getArenaStorage();
+        $pName = $player->getName();
+        $arenaName = $setUpSession->getArenaName($pName);
+        $form = new SimpleForm(function (Player $player, ?int $data = null)
+        use ($setUpSession, $arenaStorage, $arenaName, $pName) {
+            if ($data === null) {
+                return;
+            }
+            switch ($data) {
+                case 0:
+                    $arenaStorage->createArena(
+                        $arenaName
+                    );
+                    $player->sendMessage(
+                        "Successfully Seted Arena With Name $arenaName"
+                    );
+                    break;
+                case 1:
+                    $setUpSession->cancelSetUp(
+                        $pName
+                    );
+                    $player->sendMessage(
+                        "Successfully Canceled SetUp"
+                    );
+                    break;
+            }
+        });
+        $form->setTitle("SetUp Confirm");
+        $form->setContent("\n");
+        $form->addButton("Confirm");
+        $form->addButton("Cancel");
+        $player->sendForm($form);
+    }
+
+    public function sendSetArenaNameForm(
+        Player $player,
+    ) : void {
+        $setUpSession = BedFight::getInstance()->getSetUpSession();
+        $form = new CustomForm(function (Player $player, ?array $data = null)
+        use ($setUpSession) {
+            if ($data === null) {
+                return;
+            }
+            $arenaName = $data[0];
+            $setUpSession->setArenaName(
+                $player->getName(),
+                $arenaName
+            );
+            $player->sendMessage(
+                "Successfully Set Arena Name $arenaName"
+            );
+            $setUpSession->set_pending_setup($player->getName());
+            $pInv = $player->getInventory();
+            $pInv->clearAll();
+            $pInv->setItem(0,
+                VanillaBlocks::BEACON()->asItem()->setCustomName(
+                    "MapSelector"
+                )
+            );
+            $player->sendMessage("Now Use Map Selector Item In Your Inventory");
+        });
+        $form->setTitle("Set Arena Name");
+        $form->addInput("Enter the Arena Name","example: arena1");
+        $player->sendForm($form);
+    }
+
 }

@@ -24,10 +24,20 @@ class GameEvent implements Listener
         $bed_type_id = VanillaBlocks::BED()->getTypeId();
 
         $bedfight = BedFight::getInstance();
+
+        if ($player->getWorld()->getFoldername() ===
+            BedFight::getInstance()->LOBBY->getFolderName()
+        ) {
+            $event->cancel();
+            return;
+        }
+
         $gameSession = $bedfight->getGameSession();
 
         if(!$gameSession->isSessionPlayer($playerName)){
-            $event->cancel();
+            $player->sendMessage(
+                "You Are Not In Pending"
+            );
             return;
         }
 
@@ -48,8 +58,6 @@ class GameEvent implements Listener
                 $bluePlayer->sendTitle("Bed Broked!");
                 $bluePlayer->sendMessage("Your Blue Broked!");
             }
-        } else {
-            $event->cancel();
         }
     }
 

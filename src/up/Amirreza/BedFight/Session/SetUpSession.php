@@ -6,19 +6,18 @@ namespace up\Amirreza\BedFight\Session;
 
 class SetUpSession {
 
+
     private array $pending_setups = [];
     private array $setups = [];
+    private array $arenaNames = [];
+
 
     public function exists(string $name): bool {
         return array_key_exists(strtolower($name), $this->pending_setups);
     }
 
-    public function set_pending_setup(string $name, bool $value = true): void {
-        $this->pending_setups[strtolower($name)] = $value;
-    }
-
-    public function get_pending_setup(string $name) {
-        return $this->pending_setups[strtolower($name)];
+    public function set_pending_setup(string $name): void {
+        $this->pending_setups[strtolower($name)] = true;
     }
 
     public function remove_pending_setup(string $name): void {
@@ -71,7 +70,7 @@ class SetUpSession {
     )
         : void
     {
-        $this->setups[strtolower($name)][$teamColor]['spawn'] = [
+        $this->setups[strtolower($name)]['spawn'][$teamColor] = [
             'x' => $x,
             'y' => $y,
             'z' => $z,
@@ -82,14 +81,48 @@ class SetUpSession {
     public function SetUpIsOk(string $name): bool {
         return (
             isset($this->setups[strtolower($name)]['worldName']) ||
-            isset($this->setups[strtolower($name)]['blue']['bed']) ||
-            isset($this->setups[strtolower($name)]['red']['bed']) ||
-            isset($this->setups[strtolower($name)]['blue']['spawn']) ||
-            isset($this->setups[strtolower($name)]['red']['spawn'])
+            isset($this->setups[strtolower($name)]['bed']['blue']) ||
+            isset($this->setups[strtolower($name)]['bed']['red']) ||
+            isset($this->setups[strtolower($name)]['spawn']['blue']) ||
+            isset($this->setups[strtolower($name)]['spawn']['red'])
         );
     }
 
+    public function getSetUpInfo(string $name): ?string
+    {
+        $setUpData = $this->getSetupData($name);
+        $InfoData = [
+            'arena'=> $this->getArenaName($name),
+            'world' => $setUpData['worldName'],
+            'team' => [
+                'red' => "...",
+                'blue' => "..."
+            ],
+            'bed' => [
+                'red' => "...",
+                'blue' => "..."
+            ]
+        ];
+
+
+        return "arena: $InfoData[0]\n" . "world: ";
+    }
+
     public function getSetUpData(string $name): array {
+        $this->setups[strtolower($name)]['empty'] = 'yes';
         return $this->setups[strtolower($name)];
     }
+
+    public function cancelSetUp(string $name)
+    : void { $this->remArenaName($name);
+        unset($this->setups[strtolower($name)]); }
+
+    public function getArenaName(string $name)
+    : ?string { return $this->arenaNames[strtolower($name)]; }
+
+    public function setArenaName(string $name, string $arenaName)
+    : void { $this->arenaNames[strtolower($name)] = $arenaName; }
+
+    public function remArenaName(string $name)
+    : void { unset($this->arenaNames[strtolower($name)]); }
 }

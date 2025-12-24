@@ -4,44 +4,56 @@ declare(strict_types=1);
 
 namespace up\Amirreza\BedFight\Event;
 
+use pocketmine\block\Block;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
+use pocketmine\player\Player;
 use up\Amirreza\BedFight\BedFight;
 
 class SetUpEvent implements Listener {
 
-    protected BedFight $bedFight;
 
-
-    public function __construct()
-    {
-        $this->bedFight = BedFight::getInstance();
+    public function onInteract(PlayerInteractEvent $event)
+    : void {
+        $player = $event->getPlayer();
+        $setUpSession = BedFight::getInstance()->getSetUpSession();
+        if ($setUpSession->exists($player->getName())) {
+            $this->handleInteract(
+                $player,
+                $event->getItem(),
+                $event->getBlock()
+            );
+        }
     }
 
-
-    public function onInteract(PlayerInteractEvent $event): void {
-        $player = $event->getPlayer();
-        $item = $event->getItem();
-        $blockPosition = $event->getBlock()->getPosition();
+    public function handleInteract(Player $player, Item $item, Block $block)
+    : void {
+        $bedFight = BedFight::getInstance();
+        $blockPosition = $block->getPosition();
         $itemTypeId = $item->getTypeId();
         $name = $player->getName();
-        $setUpForm = $this->bedFight->getSetUpForm();
-        $setUpSesion = $this->bedFight->getSetUpSession();
-
-        if ($itemTypeId === VanillaBlocks::BEACON()->getTypeId()) {
+        $setUpForm = $bedFight->getSetUpForm();
+        $setUpSession = $bedFight->getSetUpSession();
+        if ($itemTypeId === VanillaBlocks::BEACON()->getTypeId() ||
+            $item->getCustomName() === "MapSelector"
+        ) {
             $setUpForm->sendMapSelectorForm($player);
         }
 
         if ($itemTypeId === VanillaItems::EMERALD()->getTypeId() ||
             $item->getCustomName() === "Info"
         ) {
-            if ($setUpSesion->exists($name)) {
-                $info = $setUpSesion->get_pending_setup($name);
+            if ($setUpSession->exists($name)) {
+                $info = $setUpSession->getSetUpData($name);
+                $player->sendMessage(" ".join($info));
             } else {
-                return;
+                if ($player->getServer()->isOp($player->getName())) {
+                    $player->sendMessage("You Are Not In Pending SetUp");
+                }
             }
         }
         elseif (
@@ -61,11 +73,24 @@ class SetUpEvent implements Listener {
             $item->getCustomName() === "SetSpawn(Red)"
         )
         {
-            return;
+            $setUpForm->sendConfirmSpawnForm(
+                $player,
+                'red',
+                $blockPosition
+            );
+        }
+        elseif ($itemTypeId === VanillaItems::Emerald()->getTypeId()||
+            $item->getCustomName() === "Done") {
+            if (!$setUpSession->SetUpIsOk($name)) {
+                $player->sendMessage("SetUp Data Is Not Ok For Done It");
+            } else {
+                $setUpForm->sendConfirmForm($player);
+            }
         }
     }
 
-    public function onPlace(BlockPlaceEvent $event): void {
+    public function onBreak(BlockBreakEvent $event)
+    : void {
         $player = $event->getPlayer();
         $block = $event->getItem();
         $blockTypeId = $block->getTypeId();
@@ -73,38 +98,37 @@ class SetUpEvent implements Listener {
         $bedfight = BedFight::getInstance();
         $setUpSession = $bedfight->getSetUpSession();
         $setUpForm = $bedfight->getSetUpForm();
+        $pName = $player->getName();
 
-        if (!$setUpSession->
-        isOkWorldName(
-            $player->
-                getName(),
-            $player->getWorld()->getFolderName()
-        )
-        ) {
-            $player->sendMessage("You Cannot SetUp Arena In This Map!");
+        if ($setUpSession->exists($pName)) {
+            if (!$setUpSession->isOkWorldName(
+                $player->getName(),
+                $player->getWorld()->getFolderName()
+            )) {
+                $player->sendMessage("You Cannot SetUp Arena In This Map!");
+                $event->cancel();
+                return;
+            }
+            if ($blockTypeId === VanillaBlocks::BED()->getTypeId() ||
+                $blockCustomName === "SetBed(Blue)"
+            ) {
+                $setUpForm->sendConfirmBedForm(
+                    $player,
+                    'blue',
+                    $event->getBlock()->getPosition()
+                );
+            } elseif (
+                $blockTypeId === VanillaBlocks::BED()->getTypeId() ||
+                $blockCustomName === "SetBed(Red)"
+            ) {
+                $setUpForm->sendConfirmBedForm(
+                    $player,
+                    'red',
+                    $event->getBlock()->getPosition()
+                );
+            }
             $event->cancel();
-            return;
-        }
-
-        if ($blockTypeId === VanillaBlocks::BED()->getTypeId() ||
-            $blockCustomName === "SetBed(Blue)"
-        ) {
-            $setUpForm->sendConfirmBedForm(
-                $player,
-                'blue',
-                $event->getBlockAgainst()->getPosition()
-            );
-        } elseif (
-            $blockTypeId === VanillaBlocks::BED()->getTypeId() ||
-            $blockCustomName === "SetBed(Red)"
-        ) {
-            $setUpForm->sendConfirmBedForm(
-                $player,
-                'red',
-                $event->getBlockAgainst()->getPosition()
-            );
-        } else {
-            return;
         }
     }
+
 }
