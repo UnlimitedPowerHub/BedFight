@@ -6,20 +6,10 @@ api: 5.0.0
 author: UnlimitedPowerHub
 website: 'https://github.com/UnlimitedPowerHub/'
 
-main: up\Amirreza\BedFight\BedFight
-
-commands:
-  maplist:
-    permission: use
-  copymap:
-    permission: use
-  deletemap:
-    permission: use
-  tpworld:
-    permission: use
+main: up\Amirreza\BF\BFPluginBase
 
 permissions:
-  use:
+  up.bf.use:
     default: true
-  bedfight.use:
-    default: true
+  up.bf.op:
+    default: op
