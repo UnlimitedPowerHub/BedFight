@@ -1,11 +1,11 @@
 <?php
 
-namespace up\Amirreza\BF\form\custom;
+namespace Amirreza\BF\form\custom;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
-use up\Amirreza\BF\trait\CFUTrait;
-use up\Amirreza\BF\world\WorldLoader;
+use Amirreza\BF\trait\CFUTrait;
+use Amirreza\BF\world\WorldLoader;
 
 class BFCForm {
 

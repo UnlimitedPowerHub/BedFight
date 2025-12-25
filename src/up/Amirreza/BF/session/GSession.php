@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\session;
+namespace Amirreza\BF\session;
 
-use up\Amirreza\BF\BFHelper;
+use Amirreza\BF\BFHelper;
 
 class GSession {
 

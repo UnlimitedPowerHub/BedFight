@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\session;
+namespace Amirreza\BF\session;
 
 use pocketmine\lang\Translatable;
 

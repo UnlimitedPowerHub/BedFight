@@ -1,9 +1,9 @@
 <?php
 
-namespace up\Amirreza\BF;
+namespace Amirreza\BF;
 
 use pocketmine\plugin\PluginBase;
-use up\Amirreza\BF\trait\CFUTrait;
+use Amirreza\BF\trait\CFUTrait;
 
 class BFPluginBase extends PluginBase {
 

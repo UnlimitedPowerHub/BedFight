@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\storage;
+namespace Amirreza\BF\storage;
 
 use Exception;
 use pocketmine\lang\Translatable;
-use up\Amirreza\BF\BFHelper;
-use up\Amirreza\BF\storage\storages\SQLiteStorage;
-use up\Amirreza\BF\trait\BFSTrait;
+use Amirreza\BF\BFHelper;
+use Amirreza\BF\storage\storages\SQLiteStorage;
+use Amirreza\BF\trait\BFSTrait;
 
 class BFAStorage
 {

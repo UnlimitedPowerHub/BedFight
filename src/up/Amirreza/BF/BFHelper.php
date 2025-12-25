@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF;
+namespace Amirreza\BF;
 
-use up\Amirreza\BF\command\CommandLoader;
-use up\Amirreza\BF\event\EventLoader;
-use up\Amirreza\BF\form\custom\BFCForm;
-use up\Amirreza\BF\form\simple\BFSForm;
-use up\Amirreza\BF\item\IFDefault;
-use up\Amirreza\BF\manager\BFAManager;
-use up\Amirreza\BF\session\BFSession;
-use up\Amirreza\BF\storage\storages\SQLiteStorage;
-use up\Amirreza\BF\world\WorldLoader;
+use Amirreza\BF\command\CommandLoader;
+use Amirreza\BF\event\EventLoader;
+use Amirreza\BF\form\custom\BFCForm;
+use Amirreza\BF\form\simple\BFSForm;
+use Amirreza\BF\item\IFDefault;
+use Amirreza\BF\manager\BFAManager;
+use Amirreza\BF\session\BFSession;
+use Amirreza\BF\storage\storages\SQLiteStorage;
 
 class BFHelper {
 

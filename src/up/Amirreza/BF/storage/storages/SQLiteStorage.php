@@ -12,7 +12,7 @@
  * Creates a database file (default: storage.sqlite) next to the script.
  */
 
-namespace up\Amirreza\BF\storage\storages;
+namespace Amirreza\BF\storage\storages;
 
 
 use Exception;

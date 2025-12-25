@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\command;
+namespace Amirreza\BF\command;
 
-use up\Amirreza\BF\BFPluginBase;
+use Amirreza\BF\BFPluginBase;
 
 class CommandLoader {
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\form\simple;
+namespace Amirreza\BF\form\simple;
 
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\player\Player;
-use up\Amirreza\BF\BFHelper;
-use up\Amirreza\BF\trait\CFUTrait;
+use Amirreza\BF\BFHelper;
+use Amirreza\BF\trait\CFUTrait;
 
 class BFSForm {
 

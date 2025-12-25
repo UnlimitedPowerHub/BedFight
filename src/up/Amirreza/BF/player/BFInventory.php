@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\player;
+namespace Amirreza\BF\player;
 
 use pocketmine\inventory\PlayerInventory;
 use pocketmine\item\Item;

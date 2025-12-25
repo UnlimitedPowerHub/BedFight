@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\item;
+namespace Amirreza\BF\item;
 
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
-use up\Amirreza\BF\player\BFInventory;
+use Amirreza\BF\player\BFInventory;
 
 class IFDefault {
 

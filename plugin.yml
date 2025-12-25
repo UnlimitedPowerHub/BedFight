@@ -6,7 +6,7 @@ api: 5.0.0
 author: UnlimitedPowerHub
 website: 'https://github.com/UnlimitedPowerHub/'
 
-main: up\Amirreza\BF\BFPluginBase
+main: Amirreza\BF\BFPluginBase
 
 permissions:
   up.bf.use:

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\trait;
+namespace Amirreza\BF\trait;
 
 use pocketmine\utils\TextFormat as TF;
 
