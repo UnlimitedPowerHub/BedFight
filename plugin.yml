@@ -6,7 +6,7 @@ api: 5.0.0
 author: UnlimitedPowerHub
 website: 'https://github.com/UnlimitedPowerHub/'
 
-main: Amirreza\BF\BFPluginBase
+main: Amirreza\BedFight\BedFight
 
 permissions:
   up.bf.use:
