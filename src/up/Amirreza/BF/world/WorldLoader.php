@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\world;
+namespace Amirreza\BF\world;
 
 use czechpmdevs\multiworld\MultiWorld;
 use czechpmdevs\multiworld\util\WorldUtils;
-use up\Amirreza\BF\BFPluginBase;
+use Amirreza\BF\BFPluginBase;
 
 class WorldLoader {
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\command;
+namespace Amirreza\BF\command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\lang\Translatable;
 use pocketmine\player\Player;
-use up\Amirreza\BF\BFHelper;
-use up\Amirreza\BF\trait\CFUTrait;
+use Amirreza\BF\BFHelper;
+use Amirreza\BF\trait\CFUTrait;
 
 class BFMCommand extends Command {
 

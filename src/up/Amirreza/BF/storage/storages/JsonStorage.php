@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\storage\storages;
+namespace Amirreza\BF\storage\storages;
 
 use pocketmine\utils\Config;
 use up\Amirreza\BF\BFPluginBase;

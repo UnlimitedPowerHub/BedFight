@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\manager;
+namespace Amirreza\BF\manager;
 
-use up\Amirreza\BF\trait\BFSTrait;
+use Amirreza\BF\trait\BFSTrait;
 
 class BFAManager
 {

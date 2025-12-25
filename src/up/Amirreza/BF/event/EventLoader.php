@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\event;
+namespace Amirreza\BF\event;
 
 use pocketmine\event\Listener;
-use up\Amirreza\BF\BFPluginBase;
+use Amirreza\BF\BFPluginBase;
 
 class EventLoader implements Listener {
 

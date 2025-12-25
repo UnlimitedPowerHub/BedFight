@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\item\factory;
+namespace Amirreza\BF\item\factory;
 
 use pocketmine\item\Item;
 use pocketmine\lang\Translatable;

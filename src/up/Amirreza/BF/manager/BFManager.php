@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace up\Amirreza\BF\manager;
+namespace Amirreza\BF\manager;
 
 class BFManager {
 
