@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Amirreza\BedFight\item;
 
+use Amirreza\BedFight\constant\BedFightSetUpConstant;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\item\VanillaItems;
@@ -30,5 +31,4 @@ class BedFightDefaultItem {
             $inventory->addItem($item->asItem(), $vaItem[2] ?? null);
         }
     }
-
 }
