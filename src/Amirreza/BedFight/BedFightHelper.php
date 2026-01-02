@@ -12,7 +12,6 @@ use Amirreza\BedFight\handler\BedFightHandler;
 use Amirreza\BedFight\item\BedFightDefaultItem;
 use Amirreza\BedFight\manager\BedFightArenaManager;
 use Amirreza\BedFight\manager\BedFightSessionManager;
-use Amirreza\BedFight\manager\BedFightSetUpStepManager;
 use Amirreza\BedFight\session\BedFightSetUpSession;
 use Amirreza\BedFight\storage\storages\SQLiteStorage;
 use Amirreza\BedFight\world\WorldLoader;
@@ -29,7 +28,6 @@ class BedFightHelper
     private BedFightSessionManager $bedFightSessionManager;
     private BedFightSetUpSession $bedFightSetUpSession;
     private BedFightHandler $bedFightHandler;
-    private BedFightSetUpStepManager $bedFightSetUpStepManager;
 
     public static function init(): void
     {
@@ -49,7 +47,6 @@ class BedFightHelper
         $this->bedFightSessionManager = new BedFightSessionManager();
         $this->bedFightSetUpSession = new BedFightSetUpSession();
         $this->bedFightHandler = new BedFightHandler();
-        $this->bedFightSetUpStepManager = new BedFightSetUpStepManager();
     }
 
     private function classes(): void
@@ -102,10 +99,5 @@ class BedFightHelper
     public function BedFightHandler(): BedFightHandler
     {
         return $this->bedFightHandler;
-    }
-
-    public function BedFightSetUpStepManager(): BedFightSetUpStepManager
-    {
-        return $this->bedFightSetUpStepManager;
     }
 }
