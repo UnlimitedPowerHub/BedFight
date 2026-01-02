@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Amirreza\BedFight\form\simple;
 
-use jojoe77777\FormAPI\SimpleForm;
-use pocketmine\player\Player;
 use Amirreza\BedFight\BedFightHelper;
 use Amirreza\BedFight\constant\BedFightConstant;
+use libs\jojoe77777\FormAPI\SimpleForm;
+use pocketmine\player\Player;
 
 class BedFightSimpleForm {
 

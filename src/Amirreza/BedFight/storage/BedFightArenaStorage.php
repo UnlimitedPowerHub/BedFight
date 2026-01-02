@@ -28,15 +28,25 @@ class BedFightArenaStorage
     /**
      * @throws Exception
      */
-    public function getEmptyArena(): ?array {
+    public function getEmptyArena(): ?array
+    {
         $sqlite = new SQLiteStorage($this->storage_name);
         $arenas = $sqlite->getAll();
-        foreach ($arenas as $arena) {
-            if ($arena['status'] === BedFightArenaStatusConstant::EMPTY) {
-                return $arena;
+        foreach ($arenas as $arena => $arenaData) {
+            if ($arenaData['status'] === BedFightArenaStatusConstant::EMPTY) {
+                $arenaData['status'] = BedFightArenaStatusConstant::FULL;
+                $sqlite->set($arena,$arenaData);
+                return [$arena,$arenaData];
             }
         }
         return null;
     }
 
+    public function devT(): void {
+        $sqlite = new SQLiteStorage($this->storage_name);
+        $arenas = $sqlite->getAll();
+        foreach ($arenas as $arena => $arenaData) {
+            print $arena;
+        }
+    }
 }

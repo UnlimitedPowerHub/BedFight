@@ -28,8 +28,6 @@ class BedFight extends PluginBase {
         $this->getLogger()->info(
             BedFightConstant::RBFFM."Enabled!"
         );
-        $o = BedFightHelper::get()->BedFightArenaStorage()->getEmptyArenaWorld();
-        print $o;
     }
 
     protected function onDisable(): void
