@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Amirreza\BedFight\storage;
 
+use Amirreza\BedFight\constant\BedFightArenaStatusConstant;
 use Exception;
-use pocketmine\lang\Translatable;
 use Amirreza\BedFight\BedFightHelper;
 use Amirreza\BedFight\storage\storages\SQLiteStorage;
-use Amirreza\BedFight\constant\BedFightArenaStatusConstant;
 
 class BedFightArenaStorage
 {
@@ -19,10 +18,25 @@ class BedFightArenaStorage
      * @throws Exception
      */
     public function makeArena(
-        Translatable|string $arenaName
     ): void
     {
         $sqlite = new SQLiteStorage($this->storage_name);
-        $sqlite->set($arenaName, BedFightHelper::get()->BedFightArenaManager()->getReadyArenaData());
+        $arenaManager = BedFightHelper::get()->BedFightArenaManager();
+        $sqlite->set($arenaManager->getArenaName() , $arenaManager->getReadyArenaData());
     }
+
+    /**
+     * @throws Exception
+     */
+    public function getEmptyArena(): ?array {
+        $sqlite = new SQLiteStorage($this->storage_name);
+        $arenas = $sqlite->getAll();
+        foreach ($arenas as $arena) {
+            if ($arena['status'] === BedFightArenaStatusConstant::EMPTY) {
+                return $arena;
+            }
+        }
+        return null;
+    }
+
 }

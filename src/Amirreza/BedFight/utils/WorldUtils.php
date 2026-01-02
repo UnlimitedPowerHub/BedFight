@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace Amirreza\BedFight\world;
+namespace Amirreza\BedFight\utils;
 
 use ErrorException;
 use FilesystemIterator;

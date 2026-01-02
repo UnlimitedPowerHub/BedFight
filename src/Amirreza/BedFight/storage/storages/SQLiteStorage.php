@@ -15,6 +15,7 @@
 namespace Amirreza\BedFight\storage\storages;
 
 
+use Amirreza\BedFight\BedFight;
 use Exception;
 use SQLite3;
 use Amirreza\BedFight\BedFightHelper;
@@ -27,8 +28,22 @@ class SQLiteStorage
 
     public function __construct(string $storage_name, string $storage_encryption_key = '')
     {
-        $this->storage_name = $storage_name;
+        $this->storage_name = BedFight::getInstance()->getDataFolder() . $storage_name . ".sqlite";
         $this->storage_encryption_key = $storage_encryption_key;
+
+        $db = $this->getDbConnection();
+        $db->exec("CREATE TABLE IF NOT EXISTS cache (
+            id    TEXT NOT NULL UNIQUE,
+            mod   DATETIME DEFAULT (DATETIME('now', 'localtime')),
+            data  TEXT,
+            PRIMARY KEY(id)
+        );");
+        $db->close();
+    }
+
+    private function getDbConnection(): SQLite3
+    {
+        return new SQLite3($this->storage_name, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $this->storage_encryption_key);
     }
 
     private static function init(): Sqlite3
@@ -51,26 +66,25 @@ class SQLiteStorage
     /**
      * Retrieve a single entry from database.
      * @param string $id Key of the entry to retrieve.
-     * @return array|bool JSON-serializable array on success, otherwise false
+     * @return array JSON-serializable array on success, otherwise false
      * @throws Exception
      */
-    public function get(string $id): array|bool
+    public function get(string $id): array
     {
-        $db = self::init();
+        $db = $this->getDbConnection();
         $stmt = $db->prepare("SELECT data FROM cache WHERE id=?;");
-        if (!$stmt || !$stmt->bindValue(1, $id, SQLITE3_TEXT)) {
-            throw new Exception($db->lastErrorMsg());
-            return false;
+        if (!$stmt) return [];
+
+        $stmt->bindValue(1, $id, SQLITE3_TEXT);
+        $result = $stmt->execute();
+
+        $data = [];
+        if ($result && $row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data = json_decode($row['data'], true) ?? [];
         }
-        $cur = $stmt->execute();
-        if (!$cur) {
-            throw new Exception($db->lastErrorMsg());
-            return false;
-        }
-        while ($row = $cur->fetchArray()) {
-            return json_decode($row['data'], true);
-        }
-        return [];
+
+        $db->close();
+        return $data;
     }
 
     /**
@@ -80,22 +94,15 @@ class SQLiteStorage
      */
     public function getAll(): array
     {
-        $me = BFHelper::get()->SQLiteStorage();
-        $db = $me->init();
+        $db = $this->getDbConnection();
+        $result = $db->query("SELECT id, data FROM cache;");
+
         $ret = [];
-        $stmt = $db->prepare("SELECT id, data FROM cache;");
-        if (!$stmt) {
-            throw new Exception($db->lastErrorMsg());
-            return $ret;
-        }
-        $cur = $stmt->execute();
-        if (!$cur) {
-            throw new Exception($db->lastErrorMsg());
-            return $ret;
-        }
-        while ($row = $cur->fetchArray()) {
+        while ($result && $row = $result->fetchArray(SQLITE3_ASSOC)) {
             $ret[$row['id']] = json_decode($row['data'], true);
         }
+
+        $db->close();
         return $ret;
     }
 
@@ -108,19 +115,20 @@ class SQLiteStorage
      */
     public function set(string $id, array $data): bool
     {
-        $me = BFHelper::get()->SQLiteStorage();
-        $db = $me->init();
-        $jdata = json_encode($data);
-        if ($jdata === false) {
-            throw new Exception(json_last_error_msg());
+        $db = $this->getDbConnection();
+        $json_data = json_encode($data);
+        if ($json_data === false) {
+            $db->close();
             return false;
         }
+
         $stmt = $db->prepare("INSERT INTO cache (id, data) VALUES(?, ?) ON CONFLICT(id) DO UPDATE SET data=excluded.data, mod=excluded.mod;");
-        if (!$stmt || !$stmt->bindValue(1, $id, SQLITE3_TEXT) || !$stmt->bindValue(2, $jdata, SQLITE3_TEXT) || !$stmt->execute()) {
-            throw new Exception($db->lastErrorMsg());
-            return false;
-        }
-        return true;
+        $stmt->bindValue(1, $id, SQLITE3_TEXT);
+        $stmt->bindValue(2, $json_data, SQLITE3_TEXT);
+        $success = $stmt->execute() !== false;
+
+        $db->close();
+        return $success;
     }
 
     /**
@@ -131,14 +139,13 @@ class SQLiteStorage
      */
     public function delete(string $id): bool
     {
-        $me = BFHelper::get()->SQLiteStorage();
-        $db = $me->init();
+        $db = $this->getDbConnection();
         $stmt = $db->prepare("DELETE FROM cache WHERE id=?;");
-        if (!$stmt || !$stmt->bindValue(1, $id, SQLITE3_TEXT) || !$stmt->execute()) {
-            throw new Exception($db->lastErrorMsg());
-            return false;
-        }
-        return true;
+        $stmt->bindValue(1, $id, SQLITE3_TEXT);
+        $success = $stmt->execute() !== false;
+
+        $db->close();
+        return $success;
     }
 
     /**
@@ -147,9 +154,10 @@ class SQLiteStorage
      */
     public function count(): int
     {
-        $me = BFHelper::get()->SQLiteStorage();
-        $db = $me->init();
-        return $db->querySingle("SELECT COUNT(*) FROM cache;");
+        $db = $this->getDbConnection();
+        $count = $db->querySingle("SELECT COUNT(*) FROM cache;");
+        $db->close();
+        return (int)$count;
     }
 
     /**
@@ -160,13 +168,12 @@ class SQLiteStorage
      */
     public function prune(string $age): bool
     {
-        $me = BFHelper::get()->SQLiteStorage();
-        $db = $me->init();
+        $db = $this->getDbConnection();
         $stmt = $db->prepare("DELETE FROM cache WHERE mod <= DATETIME('now', 'localtime', ?);");
-        if (!$stmt || !$stmt->bindValue(1, $age, SQLITE3_TEXT) || !$stmt->execute()) {
-            throw new Exception($db->lastErrorMsg());
-            return false;
-        }
-        return true;
+        $stmt->bindValue(1, $age, SQLITE3_TEXT);
+        $success = $stmt->execute() !== false;
+
+        $db->close();
+        return $success;
     }
 }

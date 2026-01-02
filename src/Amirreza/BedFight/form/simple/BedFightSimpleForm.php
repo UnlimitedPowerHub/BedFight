@@ -12,9 +12,20 @@ use Amirreza\BedFight\constant\BedFightConstant;
 class BedFightSimpleForm {
 
     public function sendBFForm(Player $player): void {
-        $form = new SimpleForm(function (Player $player, ?int $data) {
+        $gameSession = BedFightHelper::get()->BedFightGameSession();
+        $playerName = $player->getName();
+        $form = new SimpleForm(function (Player $player, ?int $data) use ($gameSession, $playerName) {
             if ($data === null) {
                 return;
+            }
+
+
+            if ($data === 0) {
+                if (!$gameSession->isConnect($playerName)) {
+                    $gameSession->connect($playerName);
+                } else {
+                    $gameSession->disconnect($playerName);
+                }
             }
         });
 
@@ -24,6 +35,11 @@ class BedFightSimpleForm {
             "...".
             BedFightConstant::NLWLD
         );
+        if (!$gameSession->isConnect($playerName)) {
+            $form->addButton("Join");
+        } else {
+            $form->addButton("Left");
+        }
         $player->sendForm($form);
     }
 

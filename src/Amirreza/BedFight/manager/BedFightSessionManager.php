@@ -28,6 +28,11 @@ class BedFightSessionManager {
         return $this->bedFightManager->get($name);
     }
 
+    public function getAll(): array
+    {
+        return $this->bedFightManager->getAll();
+    }
+
     public function remove(string $name): void
     {
         $this->bedFightManager->remove($name);

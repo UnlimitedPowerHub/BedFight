@@ -31,7 +31,6 @@ class BedFightManageCommand extends Command {
         }
         BedFightHelper::get()->BedFightSimpleForm()->sendBFMForm($sender);
         return true;
-        // TODO: Implement execute() method.
     }
 
 }

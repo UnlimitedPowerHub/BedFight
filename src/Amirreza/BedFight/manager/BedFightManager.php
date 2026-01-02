@@ -6,26 +6,35 @@ namespace Amirreza\BedFight\manager;
 
 class BedFightManager {
 
-    private ?array $managerName;
+    private string $managerName;
+    private array $data = [];
 
     public function __construct(string $managerName)
     {
-        $this->managerName[$managerName] = [];
+        $this->managerName = $managerName;
     }
 
     public function add(string $key, mixed $value = true): void {
-        $this->managerName[$this->managerName][$key] = $value;
+        $this->data[$key] = $value;
     }
 
     public function exists(string $key): bool {
-        return isset($this->managerName[$this->managerName][$key]);
+        return isset($this->data[$key]);
     }
 
     public function get(string $key): mixed {
-        return $this->managerName[$this->managerName][$key];
+        return $this->data[$key] ?? null;
+    }
+
+    public function getAll(): array {
+        return $this->data;
     }
 
     public function remove(string $key): void {
-        unset($this->managerName[$this->managerName][$key]);
+        unset($this->data[$key]);
+    }
+
+    public function reset(): void {
+        $this->data = [];
     }
 }

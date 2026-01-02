@@ -96,14 +96,14 @@ class BedFightArenaManager
         return $this->BFManager->get('teamredy');
     }
 
-    public function setRedTeamZ(): void
+    public function setRedTeamZ(string|int $value): void
     {
-        $this->BFManager->add('teanredz');
+        $this->BFManager->add('teamredz',$value);
     }
 
     public function getRedTeamZ(): string|int
     {
-        return $this->BFManager->get('teamredy');
+        return $this->BFManager->get('teamredz');
     }
 
     public function setBlueTeamX(string|int $value): void
@@ -116,24 +116,24 @@ class BedFightArenaManager
         return $this->BFManager->get('teambluex');
     }
 
-    public function setBlueTeamY(): void
+    public function setBlueTeamY(string|int $value): void
     {
-        $this->BFManager->add('bedbluey');
+        $this->BFManager->add('teambluey',$value);
     }
 
     public function getBlueTeamY(): string|int
     {
-        return $this->BFManager->get('bedbluey');
+        return $this->BFManager->get('teambluey');
     }
 
-    public function setBlueTeamZ(): void
+    public function setBlueTeamZ(string|int $value): void
     {
-        $this->BFManager->add('bedbluez');
+        $this->BFManager->add('teambluez',$value);
     }
 
     public function getBlueTeamZ(): string|int
     {
-        return $this->BFManager->get('bedbluey');
+        return $this->BFManager->get('teambluez');
     }
 
     public function setWorldName(?string $value): void
@@ -143,7 +143,7 @@ class BedFightArenaManager
 
     public function getWorldName(): string
     {
-        return $this->BFManager->get('worldName');
+        return (string) $this->BFManager->get('worldname');
     }
 
     public function setArenaName(?string $value): void
@@ -153,7 +153,7 @@ class BedFightArenaManager
 
     public function getArenaName(): string
     {
-        return $this->BFManager->get('arenaName');
+        return (string) $this->BFManager->get('arenaName');
     }
 
     public function getReadyArenaData(): ?array
@@ -168,7 +168,7 @@ class BedFightArenaManager
                     'z' => $this->getRedBedZ(),
                 ],
                 'blue' => [
-                    'x' => $this->getBlueBedZ(),
+                    'x' => $this->getBlueBedX(),
                     'y' => $this->getBlueBedY(),
                     'z' => $this->getBlueBedZ(),
                 ]
@@ -186,5 +186,10 @@ class BedFightArenaManager
                 ]
             ]
         ];
+    }
+
+    public function clearData(): void
+    {
+        $this->BFManager->reset();
     }
 }

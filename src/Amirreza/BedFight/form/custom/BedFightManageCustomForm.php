@@ -23,6 +23,7 @@ class BedFightManageCustomForm {
             BedFightHelper::get()->BedFightSetUpSession()->connect($player->getName());
             BedFightHelper::get()->BedFightArenaManager()->setArenaName($arenaName);
             BedFightHelper::get()->BedFightArenaManager()->setWorldName($worldName);
+            BedFightHelper::get()->BedFightHandler()->BedFightSetUpStepHandler()->handle($player);
         });
 
         $form->setTitle(BedFightConstant::RBFFP . " ⇒ Create Arena");

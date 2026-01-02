@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Amirreza\BedFight\world;
 
 use Amirreza\BedFight\BedFight;
+use Amirreza\BedFight\utils\WorldUtils;
 
 class WorldLoader {
 
