@@ -12,19 +12,20 @@ use pocketmine\player\Player;
 class BedFightSimpleForm {
 
     public function sendBFForm(Player $player): void {
-        $gameSession = BedFightHelper::get()->BedFightGameSession();
+        $gameSession = BedFightHelper::get()->BedFightPendingSession();
         $playerName = $player->getName();
         $form = new SimpleForm(function (Player $player, ?int $data) use ($gameSession, $playerName) {
             if ($data === null) {
                 return;
             }
 
-
             if ($data === 0) {
                 if (!$gameSession->isConnect($playerName)) {
                     $gameSession->connect($playerName);
+                    $player->sendMessage(BedFightConstant::RBFFM."Joined To Pending");
                 } else {
                     $gameSession->disconnect($playerName);
+                    $player->sendMessage(BedFightConstant::RBFFM."Leaved From Pending");
                 }
             }
         });
@@ -54,7 +55,7 @@ class BedFightSimpleForm {
                     BedFightHelper::get()->BedFightManageCustomForm()->sendCreateArenaForm($player);
                     break;
                 case 1:
-                    $player->sendMessage(BedFightConstant::RBFFM . "very soon..(●'◡'●)");
+                    $player->sendMessage(BedFightConstant::RBFFM . "soon..(●'◡'●)");
                     break;
                 case 2:
                     // Do Nothing Yet ¯\_(ツ)_/¯

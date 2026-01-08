@@ -6,6 +6,8 @@ namespace Amirreza\BedFight\world;
 
 use Amirreza\BedFight\BedFight;
 use Amirreza\BedFight\utils\WorldUtils;
+use pocketmine\Server;
+use pocketmine\world\World;
 
 class WorldLoader {
 
@@ -23,6 +25,10 @@ class WorldLoader {
 
     public static function getWorlds(): array {
         return self::$worlds;
+    }
+
+    public static function getDefaultWorld(): World {
+        return Server::getInstance()->getWorldManager()->getDefaultWorld();
     }
 
 }

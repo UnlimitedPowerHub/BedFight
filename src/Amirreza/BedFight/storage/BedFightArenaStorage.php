@@ -42,11 +42,16 @@ class BedFightArenaStorage
         return null;
     }
 
-    public function devT(): void {
+    /**
+     * @throws Exception
+     */
+    public function setArenaIsEmpty(string $arenaName): void {
         $sqlite = new SQLiteStorage($this->storage_name);
         $arenas = $sqlite->getAll();
         foreach ($arenas as $arena => $arenaData) {
-            print $arena;
+            if ($arena === $arenaName) {
+                $arenaData['status'] = BedFightArenaStatusConstant::EMPTY;
+            }
         }
     }
 }

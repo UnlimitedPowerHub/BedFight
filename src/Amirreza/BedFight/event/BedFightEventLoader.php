@@ -17,7 +17,8 @@ class BedFightEventLoader implements Listener {
             [new setup\BedFightSetUpBreakEvent(), $BedFight],
             [new player\BedFightInventoryEvent(), $BedFight],
             [new player\BedFightInteractEvent(), $BedFight],
-            [new player\BedFightQuitEvent(), $BedFight]
+            [new player\BedFightQuitEvent(), $BedFight],
+            [new game\BedFighGameEvent(), $BedFight],
         ];
         foreach ($events as $event) {
             $BedFight->getServer()->getPluginManager()->registerEvents($event[0], $event[1]);

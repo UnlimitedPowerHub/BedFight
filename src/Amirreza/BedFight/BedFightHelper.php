@@ -15,6 +15,7 @@ use Amirreza\BedFight\manager\BedFightGameManager;
 use Amirreza\BedFight\manager\BedFightSessionManager;
 use Amirreza\BedFight\manager\BedFightSetUpStepManager;
 use Amirreza\BedFight\session\BedFightGameSession;
+use Amirreza\BedFight\session\BedFightPendingSession;
 use Amirreza\BedFight\session\BedFightSetUpSession;
 use Amirreza\BedFight\storage\BedFightArenaStorage;
 use Amirreza\BedFight\storage\storages\SQLiteStorage;
@@ -33,9 +34,10 @@ class BedFightHelper
     private BedFightSetUpSession $bedFightSetUpSession;
     private BedFightHandler $bedFightHandler;
     private BedFightSetUpStepManager $bedFightSetUpStepManager;
-    private BedFightGameSession $bedFightGameSession;
+    private BedFightPendingSession $bedFightPendingSession;
     private BedFightArenaStorage $bedFightArenaStorage;
     private BedFightGameManager $bedFightGameManager;
+    private BedFightGameSession $bedFightGameSession;
 
     public static function init(): void
     {
@@ -56,9 +58,10 @@ class BedFightHelper
         $this->bedFightSetUpSession = new BedFightSetUpSession();
         $this->bedFightHandler = new BedFightHandler();
         $this->bedFightSetUpStepManager = new BedFightSetUpStepManager();
-        $this->bedFightGameSession = new BedFightGameSession();
+        $this->bedFightPendingSession = new BedFightPendingSession();
         $this->bedFightArenaStorage = new BedFightArenaStorage();
         $this->bedFightGameManager = new BedFightGameManager();
+        $this->bedFightGameSession = new BedFightGameSession();
     }
 
     private function classes(): void
@@ -119,9 +122,9 @@ class BedFightHelper
         return $this->bedFightSetUpStepManager;
     }
 
-    public function BedFightGameSession(): BedFightGameSession
+    public function BedFightPendingSession(): BedFightPendingSession
     {
-        return $this->bedFightGameSession;
+        return $this->bedFightPendingSession;
     }
 
     public function BedFightArenaStorage(): BedFightArenaStorage
@@ -132,5 +135,10 @@ class BedFightHelper
     public function BedFightGameManager(): BedFightGameManager
     {
         return $this->bedFightGameManager;
+    }
+
+    public function BedFightGameSession(): BedFightGameSession
+    {
+        return $this->bedFightGameSession;
     }
 }

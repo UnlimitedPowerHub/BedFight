@@ -42,7 +42,7 @@ class BedFightInventoryEvent implements Listener
 
     private function shouldCancel(Player $player): int
     {
-        return !BedFightHelper::get()->BedFightGameSession()->isConnect($player->getName())
+        return !BedFightHelper::get()->BedFightPendingSession()->isConnect($player->getName())
             & !BedFightHelper::get()->BedFightSetUpSession()->isConnect($player->getName());
     }
 
