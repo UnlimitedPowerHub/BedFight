@@ -51,8 +51,9 @@ class BedFight extends PluginBase {
         $this->config->load();
 
         $dataFolder = $this->getDataFolder();
-        if (!$dataFolder->exists()) {
-            mkdir($dataFolder);
+        $dataFolderPath = $dataFolder instanceof \SplFileInfo ? $dataFolder->getPathname() : (string) $dataFolder;
+        if (!file_exists($dataFolderPath)) {
+            mkdir($dataFolderPath, 0755, true);
         }
 
         $this->taskScheduler = new AsyncTaskScheduler($this, $this->config->getPerformanceThreads());
