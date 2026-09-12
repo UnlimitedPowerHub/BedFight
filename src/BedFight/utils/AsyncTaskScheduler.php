@@ -27,12 +27,12 @@ class AsyncTaskScheduler {
 
     public function submit(callable $task, ?callable $callback = null): void {
         $asyncTask = new class($task, $callback) extends AsyncTask {
-            private callable $task;
-            private ?callable $callback;
+            private mixed $task;
+            private mixed $callback = null;
             private mixed $result = null;
             private ?\Throwable $error = null;
 
-            public function __construct(callable $task, ?callable $callback) {
+            public function __construct(mixed $task, mixed $callback) {
                 $this->task = $task;
                 $this->callback = $callback;
             }
