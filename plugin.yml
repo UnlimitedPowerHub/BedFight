@@ -1,15 +1,47 @@
-name: "BedFight"
-
-version: 0.1.0-beta
-api: 5.0.0
-
+name: BedFight
+version: 1.0.0
+api: [5.0.0, 5.1.0, 5.2.0, 5.3.0, 5.4.0, 5.5.0, 5.6.0, 5.7.0, 5.8.0, 5.9.0, 5.10.0, 5.11.0, 5.12.0, 5.13.0, 5.14.0, 5.15.0, 5.16.0, 5.17.0]
 author: UnlimitedPowerHub
-website: 'https://github.com/UnlimitedPowerHub/'
-
-main: Amirreza\BedFight\BedFight
+website: https://github.com/UnlimitedPowerHub
+description: "High-performance BedWars plugin with AI bots, leaderboards, and NPCs"
+main: BedFight\Core\BedFight
+load: STARTUP
 
 permissions:
-  up.bf.use:
+  bedfight.use:
     default: true
-  up.bf.op:
+    description: "Basic player commands"
+  bedfight.admin:
     default: op
+    description: "Admin commands for arena management"
+  bedfight.bot:
+    default: op
+    description: "Bot management commands"
+  bedfight.npc:
+    default: op
+    description: "NPC management commands"
+  bedfight.leaderboard:
+    default: true
+    description: "View leaderboards"
+
+commands:
+  bedfight:
+    description: "Main BedFight command"
+    usage: "/bedfight <join|leave|stats|leaderboard>"
+    permission: bedfight.use
+    aliases: [bf]
+  bedfightadmin:
+    description: "Admin commands for BedFight"
+    usage: "/bedfightadmin <create|delete|list|setspawn|reload>"
+    permission: bedfight.admin
+    aliases: [bfa]
+  bedfightbot:
+    description: "Bot management commands"
+    usage: "/bedfightbot <add|remove|list|difficulty>"
+    permission: bedfight.bot
+    aliases: [bfb]
+  bedfightnpc:
+    description: "NPC management commands"
+    usage: "/bedfightnpc <create|remove|list|tp>"
+    permission: bedfight.npc
+    aliases: [bfn]

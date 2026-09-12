@@ -1,0 +1,325 @@
+# BedFight Configuration
+# High-performance BedWars plugin
+
+# Storage Configuration
+storage:
+  # Storage type: "sqlite", "json", "mysql"
+  type: "sqlite"
+  
+  # SQLite settings
+  sqlite:
+    file: "bedfight.db"
+    # WAL mode for better concurrency
+    wal_mode: true
+    # Busy timeout in ms
+    busy_timeout: 5000
+  
+  # JSON settings (file-based, good for small servers)
+  json:
+    directory: "data"
+    # Pretty print for readability
+    pretty_print: false
+  
+  # MySQL settings
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "bedfight"
+    username: "root"
+    password: ""
+    # Connection pool size
+    pool_size: 10
+    # Use SSL
+    ssl: false
+
+# Game Settings
+game:
+  # Minimum players to start a game
+  min_players: 2
+  # Maximum players per team
+  max_players_per_team: 4
+  # Game timer in seconds
+  game_timer: 900
+  # Pre-game lobby timer in seconds
+  lobby_timer: 30
+  # Bed destruction drops items
+  bed_drops_items: true
+  # Respawn enabled
+  respawn_enabled: true
+  # Respawn delay in seconds
+  respawn_delay: 5
+  # Items on respawn
+  respawn_items: true
+  # Sudden death enabled
+  sudden_death: true
+  # Sudden death time in seconds
+  sudden_death_time: 60
+
+# Arena Settings
+arena:
+  # Auto-load arenas on startup
+  auto_load: true
+  # Maximum concurrent arenas
+  max_concurrent_arenas: 50
+  # Arena cleanup interval in minutes
+  cleanup_interval: 30
+  # Minimum distance between team spawns
+  min_spawn_distance: 20
+  # Protection radius around beds
+  bed_protection_radius: 3
+
+# Bot Settings
+bot:
+  # Enable bots
+  enabled: true
+  # Maximum bots per arena
+  max_bots_per_arena: 8
+  # Bot spawn delay in ticks
+  spawn_delay: 20
+  # Bot names pool
+  names:
+    - "Bot_Alex"
+    - "Bot_Steve"
+    - "Bot_Herobrine"
+    - "Bot_Notch"
+    - "Bot_Dinnerbone"
+    - "Bot_Jeb"
+    - "Bot_Grumm"
+    - "Bot_Benny"
+    - "Bot_Charlie"
+    - "Bot_Delta"
+    - "Bot_Echo"
+    - "Bot_Foxtrot"
+    - "Bot_Golf"
+    - "Bot_Hotel"
+    - "Bot_India"
+  # Difficulty settings
+  difficulties:
+    noob:
+      aim_assist: 0.1
+      reaction_time: 800
+      build_speed: 0.3
+      bridge_speed: 0.2
+      combat_skill: 0.1
+      pathfinding: "basic"
+    player:
+      aim_assist: 0.4
+      reaction_time: 400
+      build_speed: 0.6
+      bridge_speed: 0.5
+      combat_skill: 0.4
+      pathfinding: "advanced"
+    pro:
+      aim_assist: 0.8
+      reaction_time: 100
+      build_speed: 1.0
+      bridge_speed: 0.9
+      combat_skill: 0.9
+      pathfinding: "expert"
+
+# Leaderboard Settings
+leaderboard:
+  # Enable leaderboards
+  enabled: true
+  # Update interval in minutes
+  update_interval: 5
+  # Top entries to keep
+  top_entries: 100
+  # Categories
+  categories:
+    - "wins"
+    - "kills"
+    - "beds_destroyed"
+    - "games_played"
+    - "win_streak"
+    - "kdr"
+
+# NPC Settings
+npc:
+  # Enable NPCs
+  enabled: true
+  # NPC skin cache time in minutes
+  skin_cache_time: 60
+  # Maximum NPCs per arena
+  max_npcs_per_arena: 20
+
+# Performance Settings
+performance:
+  # Async task threads
+  async_threads: 4
+  # Chunk load radius for arenas
+  chunk_load_radius: 4
+  # Entity tracking range
+  entity_tracking_range: 64
+  # Particle optimization
+  optimize_particles: true
+  # Sound optimization
+  optimize_sounds: true
+  # Database batch size
+  db_batch_size: 100
+  # Cache TTL in seconds
+  cache_ttl: 300
+
+# Messages
+messages:
+  prefix: "§8[§cBed§fFight§8] §r"
+  no_permission: "%prefix%§cYou don't have permission!"
+  player_only: "%prefix%§cThis command can only be used in-game!"
+  arena_created: "%prefix%§aArena '%arena%' created successfully!"
+  arena_deleted: "%prefix%§aArena '%arena%' deleted!"
+  arena_not_found: "%prefix%§cArena '%arena%' not found!"
+  arena_already_exists: "%prefix%§cArena '%arena%' already exists!"
+  joined_queue: "%prefix%§aJoined matchmaking queue!"
+  left_queue: "%prefix%§cLeft matchmaking queue!"
+  game_starting: "%prefix%§eGame starting in %time% seconds..."
+  game_started: "%prefix%§aGame started! Good luck!"
+  game_ended: "%prefix%§eGame ended! %winner% won!"
+  bed_destroyed: "%prefix%§c%player% destroyed %team%'s bed!"
+  player_killed: "%prefix%§c%killer% killed %victim%!"
+  you_died: "%prefix%§cYou died! Respawning in %time% seconds..."
+  respawned: "%prefix%§aYou respawned!"
+  not_in_game: "%prefix%§cYou are not in a game!"
+  already_in_queue: "%prefix%§cYou are already in the queue!"
+  arena_full: "%prefix%§cThis arena is full!"
+  setup_mode: "%prefix%§eYou are in setup mode. Use the items to configure the arena."
+  setup_complete: "%prefix%§aArena setup complete!"
+  setup_cancelled: "%prefix%§cArena setup cancelled!"
+  invalid_arena: "%prefix%§cInvalid arena configuration!"
+  leaderboard_header: "%prefix%§6=== Top 10 %category% ==="
+  leaderboard_entry: "%prefix%§e#%rank% §f%player% §7- §a%value%"
+  leaderboard_empty: "%prefix%§cNo data available for this leaderboard."
+  npc_created: "%prefix%§aNPC '%name%' created at your location!"
+  npc_removed: "%prefix%§aNPC '%name%' removed!"
+  bot_added: "%prefix%§aBot '%name%' (%difficulty%) added to arena '%arena%'!"
+  bot_removed: "%prefix%§aBot '%name%' removed!"
+  welcome: "%prefix%§aWelcome to BedFight! §7Use the BedFight item to join a game."
+  about: "%prefix%§6BedFight §7v%version% §8- §eMade by UnlimitedPowerHub\n§7GitHub: §bhttps://github.com/UnlimitedPowerHub"
+  duel_soon: "%prefix%§cDuels coming soon!"
+  no_arenas_available: "%prefix%§cNo arenas available!"
+  not_enough_players: "%prefix%§cNot enough players to start!"
+  game_won: "%prefix%§aYou won the game in %arena%!"
+  game_lost: "%prefix%§cYou lost! %winner% won in %arena%."
+  game_draw: "%prefix%§eGame ended in a draw!"
+  eliminated: "%prefix%§cYou have been eliminated!"
+  sudden_death: "%prefix%§c§lSUDDEN DEATH! §r§c%time% seconds remaining!"
+  time_remaining: "%prefix%§eTime remaining: %time% seconds"
+  arena_usage_create: "%prefix%§cUsage: /bfa create <name> [world]"
+  arena_usage_delete: "%prefix%§cUsage: /bfa delete <name>"
+  arena_usage_setspawn: "%prefix%§cUsage: /bfa setspawn <bluespawn|bluebed|redspawn|redbed> <arena>"
+  arena_usage_tp: "%prefix%§cUsage: /bfa tp <arena>"
+  bot_usage_add: "%prefix%§cUsage: /bfb add <arena> [difficulty]"
+  bot_usage_remove: "%prefix%§cUsage: /bfb remove <name>"
+  bot_usage_fill: "%prefix%§cUsage: /bfb fill <arena> [count]"
+  npc_usage_remove: "%prefix%§cUsage: /bfn remove <id>"
+  npc_usage_tp: "%prefix%§cUsage: /bfn tp <id>"
+  config_reloaded: "%prefix%§aConfig reloaded!"
+
+# Items Configuration
+items:
+  # Lobby items
+  lobby:
+    - type: "BED"
+      name: "§cBed§fFight"
+      slot: 0
+      lore:
+        - "§7Right-click to join a game"
+    - type: "IRON_SWORD"
+      name: "§eDuel"
+      slot: 1
+      lore:
+        - "§71v1 Duels (Coming Soon)"
+    - type: "NAME_TAG"
+      name: "§bAbout"
+      slot: 8
+      lore:
+        - "§7Plugin info and credits"
+
+  # Setup items
+  setup:
+    step1:
+      type: "ENDER_PEARL"
+      name: "§bSet Blue Spawn"
+      slot: 0
+    step2:
+      type: "BLUE_BED"
+      name: "§bSet Blue Bed"
+      slot: 0
+    step3:
+      type: "ENDER_PEARL"
+      name: "§cSet Red Spawn"
+      slot: 0
+    step4:
+      type: "RED_BED"
+      name: "§cSet Red Bed"
+      slot: 0
+    step5:
+      - type: "EMERALD"
+        name: "§aConfirm"
+        slot: 0
+      - type: "REDSTONE"
+        name: "§cCancel"
+        slot: 1
+
+  # Game items per team
+  game:
+    blue:
+      - type: "WOODEN_SWORD"
+        name: "§bWooden Sword"
+        slot: 0
+      - type: "BLUE_WOOL"
+        name: "§bTeam Wool"
+        slot: 1
+        amount: 64
+      - type: "SHEARS"
+        name: "§bShears"
+        slot: 2
+      - type: "WOODEN_PICKAXE"
+        name: "§bPickaxe"
+        slot: 3
+      - type: "WOODEN_AXE"
+        name: "§bAxe"
+        slot: 4
+    red:
+      - type: "WOODEN_SWORD"
+        name: "§cWooden Sword"
+        slot: 0
+      - type: "RED_WOOL"
+        name: "§cTeam Wool"
+        slot: 1
+        amount: 64
+      - type: "SHEARS"
+        name: "§cShears"
+        slot: 2
+      - type: "WOODEN_PICKAXE"
+        name: "§cPickaxe"
+        slot: 3
+      - type: "WOODEN_AXE"
+        name: "§cAxe"
+        slot: 4
+
+# Particles
+particles:
+  bed_destroy:
+    type: "EXPLOSION"
+    count: 20
+  player_kill:
+    type: "HEART"
+    count: 10
+  win:
+    type: "FIREWORK"
+    count: 5
+  respawn:
+    type: "VILLAGER_HAPPY"
+    count: 15
+
+# Sounds
+sounds:
+  join_queue: "random.pop"
+  leave_queue: "random.click"
+  game_start: "mob.enderdragon.growl"
+  game_end: "random.levelup"
+  bed_destroy: "random.explode"
+  kill: "random.orb"
+  death: "mob.zombie.death"
+  respawn: "random.pop"
+  click: "random.click"
