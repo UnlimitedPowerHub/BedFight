@@ -12,8 +12,8 @@ use BedFight\Config\ConfigManager;
 use BedFight\Leaderboard\LeaderboardManager;
 use BedFight\NPC\NPCManager;
 use BedFight\Storage\StorageManager;
-use BedFight\Utils\AsyncTaskScheduler;
 use BedFight\Utils\Logger;
+use BedFight\Utils\VapmScheduler;
 use BedFight\Utils\ParticleManager;
 use BedFight\Utils\SoundManager;
 use pocketmine\player\Player;
@@ -31,7 +31,7 @@ class GameManager {
     private BotManager $botManager;
     private LeaderboardManager $leaderboardManager;
     private NPCManager $npcManager;
-    private AsyncTaskScheduler $scheduler;
+    private VapmScheduler $scheduler;
     private Logger $logger;
     private ParticleManager $particles;
     private SoundManager $sounds;
@@ -52,7 +52,7 @@ class GameManager {
         $this->botManager = $plugin->getBotManager();
         $this->leaderboardManager = $plugin->getLeaderboardManager();
         $this->npcManager = $plugin->getNPCManager();
-        $this->scheduler = $plugin->getTaskScheduler();
+        $this->scheduler = $plugin->getVapmScheduler();
         $this->logger = $plugin->getLoggerWrapper();
         $this->particles = new ParticleManager($plugin);
         $this->sounds = new SoundManager($plugin);

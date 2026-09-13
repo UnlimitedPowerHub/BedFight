@@ -13,11 +13,12 @@ use BedFight\Game\GameManager;
 use BedFight\Leaderboard\LeaderboardManager;
 use BedFight\NPC\NPCManager;
 use BedFight\Storage\StorageManager;
-use BedFight\Utils\AsyncTaskScheduler;
 use BedFight\Utils\Logger;
+use BedFight\Utils\VapmScheduler;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use vennv\vapm\VapmPMMP;
 use function mkdir;
 
 class BedFight extends PluginBase {
@@ -30,7 +31,7 @@ class BedFight extends PluginBase {
     private BotManager $botManager;
     private LeaderboardManager $leaderboardManager;
     private NPCManager $npcManager;
-    private AsyncTaskScheduler $taskScheduler;
+    private VapmScheduler $vapmScheduler;
     private Logger $logger;
     private \BedFight\Form\FormManager $formManager;
     private \BedFight\Event\EventListener $eventListener;
@@ -50,14 +51,17 @@ class BedFight extends PluginBase {
         $this->config = new ConfigManager($this);
         $this->config->load();
 
+        // Initialize LibVapmPMMP async runtime
+        VapmPMMP::init($this);
+
         $dataFolder = $this->getDataFolder();
         $dataFolderPath = $dataFolder instanceof \SplFileInfo ? $dataFolder->getPathname() : (string) $dataFolder;
         if (!file_exists($dataFolderPath)) {
             mkdir($dataFolderPath, 0755, true);
         }
 
-        $this->taskScheduler = new AsyncTaskScheduler($this, $this->config->getPerformanceThreads());
-        $this->storage = new StorageManager($this, $this->config);
+        $this->vapmScheduler = new VapmScheduler($this);
+        $this->storage = new StorageManager($this, $this->config, $this->vapmScheduler);
         $this->storage->initialize();
 
         $this->arenaManager = new ArenaManager($this, $this->storage, $this->config);
@@ -80,7 +84,7 @@ class BedFight extends PluginBase {
 
         $this->logger->info("BedFight v{$this->getDescription()->getVersion()} enabled!");
         $this->logger->info("Storage: {$this->config->getStorageType()}");
-        $this->logger->info("Async threads: {$this->config->getPerformanceThreads()}");
+        $this->logger->info("Async runtime: LibVapmPMMP (Fibers)");
     }
 
     public function onDisable(): void {
@@ -89,7 +93,6 @@ class BedFight extends PluginBase {
         $this->leaderboardManager->save();
         $this->npcManager->despawnAll();
         $this->botManager->removeAllBots();
-        $this->taskScheduler->shutdown();
         $this->storage->close();
         $this->logger->info("BedFight disabled!");
     }
@@ -113,7 +116,7 @@ class BedFight extends PluginBase {
     public function getBotManager(): BotManager { return $this->botManager; }
     public function getLeaderboardManager(): LeaderboardManager { return $this->leaderboardManager; }
     public function getNPCManager(): NPCManager { return $this->npcManager; }
-    public function getTaskScheduler(): AsyncTaskScheduler { return $this->taskScheduler; }
+    public function getVapmScheduler(): VapmScheduler { return $this->vapmScheduler; }
     public function getLoggerWrapper(): Logger { return $this->logger; }
     public function getFormManager(): \BedFight\Form\FormManager { return $this->formManager; }
     public function getEventListener(): \BedFight\Event\EventListener { return $this->eventListener; }
