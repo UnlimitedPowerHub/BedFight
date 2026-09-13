@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace BedFight\Form;
 
 use BedFight\Core\BedFight;
+use BedFight\Form\SimpleForm;
+use BedFight\Form\CustomForm;
+use BedFight\Form\ModalForm;
+use BedFight\Form\Form;
+use BedFight\Form\PersistentForm;
 use pocketmine\player\Player;
 
 class FormManager {
