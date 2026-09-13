@@ -5,24 +5,18 @@ declare(strict_types=1);
 namespace BedFight\Utils;
 
 use BedFight\Core\BedFight;
-use Closure;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
-use Threaded;
-use function count;
 
 class AsyncTaskScheduler {
 
     private BedFight $plugin;
     private int $maxThreads;
-    private Threaded $taskQueue;
     private int $runningTasks = 0;
-    private array $callbacks = [];
 
     public function __construct(BedFight $plugin, int $maxThreads = 4) {
         $this->plugin = $plugin;
         $this->maxThreads = $maxThreads;
-        $this->taskQueue = new Threaded();
     }
 
     public function submit(callable $task, ?callable $callback = null): void {
