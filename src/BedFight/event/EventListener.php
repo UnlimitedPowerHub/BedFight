@@ -85,7 +85,13 @@ class EventListener implements Listener {
         $item = $event->getItem();
         
         $arena = $this->gameManager->getPlayerArena($player);
-        if ($arena === null) return;
+        if ($arena === null) {
+            // In lobby - only allow ops to break blocks
+            if (!$player->isOp()) {
+                $event->cancel();
+            }
+            return;
+        }
 
         $game = $this->plugin->getGameManager()->getPlayerArena($player);
         if ($game !== null) {
@@ -99,7 +105,10 @@ class EventListener implements Listener {
         $player = $event->getPlayer();
         $arena = $this->gameManager->getPlayerArena($player);
         if ($arena === null) {
-            $event->cancel();
+            // In lobby - only allow ops to place blocks
+            if (!$player->isOp()) {
+                $event->cancel();
+            }
         }
     }
 

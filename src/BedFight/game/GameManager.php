@@ -441,7 +441,7 @@ class GameManager {
         $this->giveLobbyItems($player);
     }
 
-    private function giveLobbyItems(Player $player): void {
+    public function giveLobbyItems(Player $player): void {
         $items = $this->config->getItems('lobby');
         $player->getInventory()->clearAll();
         foreach ($items as $itemData) {
