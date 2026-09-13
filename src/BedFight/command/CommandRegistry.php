@@ -42,12 +42,7 @@ class CommandRegistry {
         ];
 
         foreach ($commands as $name => $command) {
-            $pluginCommand = new PluginCommand($name, $this->plugin);
-            $pluginCommand->setDescription($command->getDescription());
-            $pluginCommand->setUsage($command->getUsage());
-            $pluginCommand->setAliases($command->getAliases());
-            $pluginCommand->setPermission($command->getPermission());
-            $this->plugin->getServer()->getCommandMap()->register($name, $pluginCommand);
+            $this->plugin->getServer()->getCommandMap()->register($name, $command);
         }
     }
 }

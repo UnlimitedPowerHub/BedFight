@@ -143,12 +143,23 @@ class SQLiteDriver implements StorageDriver {
     }
 
     public function getAll(string $table): array {
-        $result = $this->db->query("SELECT id, data FROM $table");
+        $primaryKey = $this->getPrimaryKey($table);
+        $result = $this->db->query("SELECT * FROM $table");
         $data = [];
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $data[$row['id']] = json_decode($row['data'], true) ?? [];
+            $key = $row[$primaryKey] ?? '';
+            $jsonData = $row['data'] ?? json_encode($row);
+            $data[$key] = json_decode($jsonData, true) ?? [];
         }
         return $data;
+    }
+
+    private function getPrimaryKey(string $table): string {
+        return match ($table) {
+            'leaderboards' => 'category',
+            'arenas', 'players', 'bots', 'npcs', 'games' => 'id',
+            default => 'id',
+        };
     }
 
     public function exists(string $table, string $key): bool {

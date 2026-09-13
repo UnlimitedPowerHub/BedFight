@@ -34,13 +34,12 @@ class LeaderboardManager {
     public function startUpdateTask(): void {
         $this->loadAllLeaderboards();
         
-        $this->plugin->getScheduler()->scheduleRepeatingTask(new class($this) extends \pocketmine\scheduler\AsyncTask {
+        $this->plugin->getScheduler()->scheduleRepeatingTask(new class($this) extends \pocketmine\scheduler\Task {
             private LeaderboardManager $manager;
             public function __construct(LeaderboardManager $manager) { $this->manager = $manager; }
             public function onRun(): void {
                 $this->manager->saveAllLeaderboards();
             }
-            public function onCompletion(): void {}
         }, $this->updateInterval / 50);
     }
 
@@ -145,7 +144,7 @@ class LeaderboardManager {
         $this->logger->info("Loaded leaderboards: " . count($this->cache) . " entries");
     }
 
-    private function saveAllLeaderboards(): void {
+    public function saveAllLeaderboards(): void {
         $data = [];
         foreach ($this->cache as $key => $value) {
             [$category, $uuid] = explode(':', $key, 2);
