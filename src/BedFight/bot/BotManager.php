@@ -30,18 +30,22 @@ use function count;
 class BotManager {
 
     private BedFight $plugin;
-    private GameManager $gameManager;
+    private ?GameManager $gameManager = null;
     private ConfigManager $config;
     private Logger $logger;
     private array $bots = [];
     private array $botArenas = [];
     private array $botTasks = [];
 
-    public function __construct(BedFight $plugin, GameManager $gameManager, ConfigManager $config) {
+    public function __construct(BedFight $plugin, ?GameManager $gameManager, ConfigManager $config) {
         $this->plugin = $plugin;
         $this->gameManager = $gameManager;
         $this->config = $config;
         $this->logger = $plugin->getLoggerWrapper();
+    }
+
+    public function setGameManager(GameManager $gameManager): void {
+        $this->gameManager = $gameManager;
     }
 
     public function addBot(Arena $arena, string $difficulty = 'player'): ?Bot {

@@ -65,8 +65,9 @@ class BedFight extends PluginBase {
         $this->storage->initialize();
 
         $this->arenaManager = new ArenaManager($this, $this->storage, $this->config);
+        $this->botManager = new BotManager($this, null, $this->config);
         $this->gameManager = new GameManager($this, $this->arenaManager, $this->config);
-        $this->botManager = new BotManager($this, $this->gameManager, $this->config);
+        $this->botManager->setGameManager($this->gameManager);
         $this->leaderboardManager = new LeaderboardManager($this, $this->storage, $this->config);
         $this->npcManager = new NPCManager($this, $this->config);
         $this->formManager = new \BedFight\Form\FormManager($this);

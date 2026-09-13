@@ -126,7 +126,7 @@ class ArenaManager {
         $this->storage->set('arenas', $arena->getId(), $arena->toArray());
     }
 
-    public function saveArenaAsync(Arena $arena, callable $callback = null): void {
+    public function saveArenaAsync(Arena $arena, ?callable $callback = null): void {
         $this->storage->setAsync('arenas', $arena->getId(), $arena->toArray(), $callback ?? function() {});
     }
 
