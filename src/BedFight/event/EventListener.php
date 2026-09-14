@@ -87,7 +87,7 @@ class EventListener implements Listener {
         $arena = $this->gameManager->getPlayerArena($player);
         if ($arena === null) {
             // In lobby - only allow ops to break blocks
-            if (!$player->isOp()) {
+            if (!$this->isOperator($player)) {
                 $event->cancel();
             }
             return;
@@ -106,10 +106,14 @@ class EventListener implements Listener {
         $arena = $this->gameManager->getPlayerArena($player);
         if ($arena === null) {
             // In lobby - only allow ops to place blocks
-            if (!$player->isOp()) {
+            if (!$this->isOperator($player)) {
                 $event->cancel();
             }
         }
+    }
+
+    private function isOperator(Player $player): bool {
+        return $this->plugin->getServer()->isOp($player->getName());
     }
 
     public function onDamage(EntityDamageByEntityEvent $event): void {
