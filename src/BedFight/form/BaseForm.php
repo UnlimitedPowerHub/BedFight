@@ -11,7 +11,7 @@ abstract class BaseForm implements Form {
 
     protected int $id;
     protected string $title = "";
-    protected ?callable $callback = null;
+    protected mixed $callback = null;
 
     public function __construct(int $id = 0) {
         $this->id = $id ?: self::generateId();
