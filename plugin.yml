@@ -23,25 +23,3 @@ permissions:
   bedfight.leaderboard:
     default: true
     description: "View leaderboards"
-
-commands:
-  bedfight:
-    description: "Main BedFight command"
-    usage: "/bedfight <join|leave|stats|leaderboard>"
-    permission: bedfight.use
-    aliases: [bf]
-  bedfightadmin:
-    description: "Admin commands for BedFight"
-    usage: "/bedfightadmin <create|delete|list|setspawn|reload>"
-    permission: bedfight.admin
-    aliases: [bfa]
-  bedfightbot:
-    description: "Bot management commands"
-    usage: "/bedfightbot <add|remove|list|difficulty>"
-    permission: bedfight.bot
-    aliases: [bfb]
-  bedfightnpc:
-    description: "NPC management commands"
-    usage: "/bedfightnpc <create|remove|list|tp>"
-    permission: bedfight.npc
-    aliases: [bfn]
