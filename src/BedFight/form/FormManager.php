@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace BedFight\Form;
 
 use BedFight\Core\BedFight;
-use BedFight\Form\SimpleForm;
-use BedFight\Form\CustomForm;
-use BedFight\Form\ModalForm;
-use BedFight\Form\Form;
-use BedFight\Form\PersistentForm;
+use BedFight\FormAPI\SimpleForm;
+use BedFight\FormAPI\CustomForm;
+use BedFight\FormAPI\ModalForm;
+use BedFight\FormAPI\Form;
 use pocketmine\player\Player;
 
 class FormManager {
@@ -40,21 +39,19 @@ class FormManager {
         $form = $this->forms[$formId] ?? null;
         if ($form !== null) {
             $form->handleResponse($player, $data);
-            if (!($form instanceof PersistentForm)) {
-                unset($this->forms[$formId]);
-            }
+            unset($this->forms[$formId]);
         }
     }
 
-    public function createSimpleForm(): SimpleForm {
-        return new SimpleForm($this->nextId++);
+    public function createSimpleForm(?callable $callback = null): SimpleForm {
+        return new SimpleForm($callback);
     }
 
-    public function createCustomForm(): CustomForm {
-        return new CustomForm($this->nextId++);
+    public function createCustomForm(?callable $callback = null): CustomForm {
+        return new CustomForm($callback);
     }
 
-    public function createModalForm(): ModalForm {
-        return new ModalForm($this->nextId++);
+    public function createModalForm(?callable $callback = null): ModalForm {
+        return new ModalForm($callback);
     }
 }
